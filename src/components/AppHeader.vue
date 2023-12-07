@@ -35,7 +35,7 @@ export default {
     </li>
     
 
-    <button  class="btn btn-outline-success" type="submit">Search</button>
+    <router-link :to="{name: 'Restaurant_list' }"  class="btn btn-outline-success" type="submit">Search</router-link>
   </ul>
     </div>
 </div>
