@@ -5,10 +5,12 @@ export const store = reactive({
         baseUrl:"http://127.0.0.1:8000/api/",
         urlTypology: "apiTypology",
         urlRestaurants: "apiRestaurant",
+        urlDishes:"apiDish",
         typology: [],
         restaurants: [],
         selectedTypologies: [],
         loading: false,
+        dishes:[],
 
         getTypology() {
             this.loading = true;
@@ -24,7 +26,7 @@ export const store = reactive({
             this.loading = true;
             axios.get(this.baseUrl + this.urlRestaurants, { params: { typologies } })
             .then(response => {
-                this.restaurants = response.data.results;
+                this.restaurants = response.data.results.data;
                 this.loading = false;
                 console.log(this.restaurants);
             })
@@ -41,6 +43,15 @@ export const store = reactive({
               this.selectedTypologies.push(typology.name);
             }
           },
+          getDishes(){
+            this.loading = true;
+            axios.get(this.baseUrl + this.urlDishes)
+            .then((res)=>{
+              this.loading = false;
+              this.dishes = res.data.results;
+              console.log( this.dishes);
+            })
+          }
 
 
 

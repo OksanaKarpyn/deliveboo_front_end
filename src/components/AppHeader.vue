@@ -15,14 +15,53 @@ export default {
 </script>
 
 <template>
+  <nav class="navbar navbar-expand-md " style="height: 60px;">
+    <div class="container ">
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand d-flex align-items-center" href="http://localhost:5173/">
+                <img  src="../../public/1.png" alt="" style="max-height: 70px;">
+                <div><i class="fa-solid fa-burger"></i> Deliveboo</div>
+            </a>
+            
+        </div>
+        
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="#">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:5173/"></a>
+                </li>
+            </ul>
+
+            <!-- Right Side Of Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Authentication Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/ListaRistoranti">Lista restoranti</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link bottonemedico" href="http://127.0.0.1:8000/login">ACCEDI</a>
+                </li>
+              
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 
 <nav class="navbar navbar-expand-lg bg-danger">
   <div class="container">
-    <!-- NAV IMG -->
+  
     <a class="navbar-brand fw-bold text-white" href="/">
       DELIVEBOO
     </a>
-    <!-- NAV TEXT -->
+  
     <div id="navbarText ">
       <a href="/" class="navbar-text mx-4 text-decoration-none fw-bold text-white">
         ABOUT US
@@ -35,7 +74,9 @@ export default {
       </a>
     </div>
   </div>
-</nav>
+</nav> -->
+
+
 <!-- <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand">Navbar</a>
