@@ -9,7 +9,7 @@ export default{
         }
     },
     mounted(){
-      store.getDishes();
+      store. getSingleRestaurant(this.$route.params.id);
 
     }
 }
@@ -23,14 +23,14 @@ export default{
             <span class="quantity">0</span>
          </div>
       </header>
-      <div class="list-menu border border-danger" v-for="(dish, index) in store.dishes" :key="index">
+      <div class="list-menu border border-danger" v-for="(dish, index) in store.singleRestaurant.dishes" :key="index">
          <div class="listCardImg">
             <img :src="dish.photo" alt="foto">
             <div>
                <div>Nome prodotto</div>
                <h2>{{dish.name}}</h2>
             </div>
-            <div class="btn btn-warning d-flex flex-column" @click="addToCarD(elem)">Add to cart
+            <div class="btn btn-warning d-flex flex-column">Add to cart
             </div>
          </div>
       </div>  
