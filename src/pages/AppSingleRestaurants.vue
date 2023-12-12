@@ -18,12 +18,21 @@ export default{
       addToCart(dish) {
          const existingItemIndex = this.cartItems.findIndex(item => item.dishId === dish.id);
 
-          this.cartItems.push({
-              name: dish.name,
-              price: dish.price,
-              image: dish.photo ? `${this.store.urlImg}${dish.photo}` : 'https://picsum.photos/300/100?random',
-          });
-          console.log( this.cartItems);
+         if (existingItemIndex !== -1) {
+              // Se l'articolo esiste già nel carrello, aumenta la quantità
+              this.cartItems[existingItemIndex].quantity++;
+          } else {
+              // Altrimenti, aggiungi l'articolo al carrello
+              const newItem = {
+                  dishId: dish.id,
+                  name: dish.name,
+                  price: dish.price,
+                  image: dish.photo ? `${this.store.urlImg}${dish.photo}` : 'https://picsum.photos/300/100?random',
+                  quantity: 1,
+                  // altre proprietà necessarie
+              };
+              this.cartItems.push(newItem);
+          }
        
          //  axios.post('', {dishId: dish.id})
          //  .then(response => {
@@ -63,15 +72,19 @@ export default{
                </div>
                <div class="offcanvas-body">
                   <div class="row w-100 border border-warning">
-                     <div class="d-flex border border-danger" style="width: 14rem;" v-for="(item, index) in cartItems" :key="index">
+                     <div class="d-flex border border-danger"  v-for="(item, index) in cartItems" :key="index">
                         <div class="card-img">
                            <img :src="item.image" class="card-img-top d-block h-100"  :alt="item.name">
                         </div>
                         <div class="card-body">
                           <span class="card-text">{{ item.name }}</span>
-                          <span class="card-text">{{  item.price}}</span>
+                          <p class="card-text border border-danger">{{  item.price * item.quantity }}</p>
                         </div>
+                        <button class="btn ntn-outline-secondary" @click="decreaseQuantity(index)">-</button>
+                           {{ item.quantity }}
+                     <button class="btn ntn-outline-secondary" @click="increaseQuantity(index)">+</button>
                      </div>
+                     
 
                   </div>
                   
