@@ -1,225 +1,107 @@
 <script>
 import { store } from '../data/store';
 
+
 export default{
-    name: "AppCard",
+    name: "SingleRestaurants",
     data() {
         return {
-            store
+            store,
+            cartItems: [],
         }
     },
     mounted(){
       store. getSingleRestaurant(this.$route.params.id);
 
-    }
+    },
+    methods: {
+      addToCart(dish) {
+         const existingItemIndex = this.cartItems.findIndex(item => item.dishId === dish.id);
+
+          this.cartItems.push({
+              name: dish.name,
+              price: dish.price,
+              image: dish.photo ? `${this.store.urlImg}${dish.photo}` : 'https://picsum.photos/300/100?random',
+          });
+          console.log( this.cartItems);
+       
+         //  axios.post('', {dishId: dish.id})
+         //  .then(response => {
+         //      console.log(response.data);
+         //  })
+      },
+      increaseQuantity(index) {
+           // Aumenta la quantità dell'articolo nel carrello
+           this.cartItems[index].quantity++;
+      },
+      decreaseQuantity(index) {
+          // Diminuisci la quantità dell'articolo nel carrello
+          if (this.cartItems[index].quantity > 1) {
+              this.cartItems[index].quantity--;
+          } else {
+              // Se la quantità è 1 o meno, rimuovi l'articolo dal carrello
+              this.cartItems.splice(index, 1);
+          }
+      },
+  },
 }
 </script>
 <template>
+   
    <div class="container">
-      <header>
-         <h1>Your shoping card</h1>
-         <div class="shopping">
-            <i class="fa fa-cart-shopping"></i>
-            <span class="quantity">0</span>
-         </div>
-      </header>
-      <div class="list-menu border border-danger" v-for="(dish, index) in store.singleRestaurant.dishes" :key="index">
-         <div class="listCardImg">
-            <img :src="dish.photo" alt="foto">
-            <div>
-               <div>Nome prodotto</div>
-               <h2>{{dish.name}}</h2>
+      <div class="row">
+         <header class="d-flex justify-content-between align-items-center py-3  border border-warning">
+            <h1>Your dishes</h1>
+            <div class="shopping">
+             <!-- ------- -->
+             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa fa-cart-shopping"></i></button>
+             <span class="badge bg-secondary">{{ cartItems.length }}</span>
+             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+               <div class="offcanvas-header">
+                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+               </div>
+               <div class="offcanvas-body">
+                  <div class="row w-100 border border-warning">
+                     <div class="d-flex border border-danger" style="width: 14rem;" v-for="(item, index) in cartItems" :key="index">
+                        <div class="card-img">
+                           <img :src="item.image" class="card-img-top d-block h-100"  :alt="item.name">
+                        </div>
+                        <div class="card-body">
+                          <span class="card-text">{{ item.name }}</span>
+                          <span class="card-text">{{  item.price}}</span>
+                        </div>
+                     </div>
+
+                  </div>
+                  
+                  <!-- <div v-for="(item, index) in cartItems" :key="index">
+                      - {{ item.price }}
+                 </div> -->
+                 
+               </div>
+             </div>
             </div>
-            <div class="btn btn-warning d-flex flex-column">Add to cart
-            </div>
-         </div>
-      </div>  
-      <!-- carello -->
-      <div class="cards"  >
-         
-         <ul class="listcard"></ul>
-         <div class="checkout">
-            <div class="total">0</div>
-            <div class="closeShopping">Slose</div>
+         </header>
+      </div>
+      
+      <div class="row">
+         <div class="dishes d-flex justify-content-between">
+            <div class="card" style="width: 18rem;" v-for="(dish, index) in store.singleRestaurant.dishes" :key="index">
+               <img  v-if="`${store.urlImg}${dish.photo}` == 'null' " src="https://picsum.photos/300/100?random" :aria-autocomplete="dish.name">
+               <img v-else :src="`${store.urlImg}${dish.photo}`" :alt="dish.name">
+               <div class="card-body">
+                 <h5 class="card-title">{{dish.name}}</h5>
+                 <p class="card-text">{{dish.price}}</p>
+                 <a href="#" class="btn btn-primary"  @click="addToCart(dish)">Add plate to cart</a>
+               </div>
+             </div>
          </div>
       </div>
    </div>
 </template>
-<style scoped lang="scss">
-*{
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
+<style scoped>
+.card-img img{
+   width: 80px;
 }
-:root{
-   --bg-color-dark:#1c1f25;
-   --bg-color-brown: #453e3b;
-   --bg-color-red:red;
-   --bg-color-orange:orange;
-   --text-color-white:hsl(0, 0%, 100%);
-   --text-color-yellow:#e8bc0e;
-
-}
-.wrapper{
-   font-family: system-ui;
-   padding: 20px;
-}
-.container {
- 
-   transition: .5s;
-   width: 100%;
-  
-   margin: 0 auto;
-}
-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-header .shopping {
-   position: relative;
-  
-}
-header .shopping i{
-   font-size: 26px;
-
-}
-header .shopping .quantity {
-   position: absolute;
-   top: -10px;
-   right: -20px;
-   background-color: pink;
-   width: 20px;
-   height: 20px;
-   line-height: 20px;
-   text-align: center;
-   border-radius: 50%;
-}
-.list-menu {
- 
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: center;
-   flex : 0 0 33.33%;
-   gap:20px ;
-   margin-top: 50px;
-   width: 100%;
-}
-.list-menu .list-item{
-   padding: 15px;
-   width: 300px;
-   flex: 0 0 25%;
-   background-color: #fff;
-   box-shadow: 0 50px 50px #757676;
-   border-radius: 5%;
- 
-}
-.list-menu img{
-   display: block;
-   display: flex;
-   justify-content: center;
-  width: 100%;
-}
-.list-menu .list-info{
-   padding: 10px;
-   text-align: center;
-
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-}
-
-.cards {
-   position: fixed;
-   top: 0;
-   left:100%;
-   width: 400px;
-   background-color: var(--bg-color-brown);
-   height: 100vh;
-   transition: .5s;
-
-}
-
-.cards h2{
-   color: var(--text-color-yellow);
-   font-weight: 200;
-   padding:  0 20px;
-   height: 80px;
-   border: 1px solid red;
-}
-.cards .checkout {
-   position: absolute;
-   bottom: 0;
-   display: flex;
-   flex:  0 0 100%;
-   justify-content: center;
-   bottom: 0;
-   width: 100%;
-}
-.listcard{
-   padding: 5px;
-   height: 90px;
-}
-.listcard li{
-   height: 100%;
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   width: 100%;
-   color: var(--text-color-white);
-}
-.listcard li .listCardImg{
-   display: flex;
-   align-items: center;
-  
-}
-.listcard img{
-   padding-right: 10px;
-   height: 50px;
-}
-.listcard li .count{
-   font-size: 18px;
-   font-weight: 500;
-   color: var(--text-color-white);
-}
-.listcard li button{
-   width: 30px;
-   height: 30px;
-   font-size: 18px;
-}
-.checkout {
-}
-.cards .checkout .total {
-   flex:  0 0 50%; 
-   width: 50%; 
-   background-color: var(--bg-color-orange);
-   height: 70px;
-   padding: 10px 20px;
-   text-align: center;
-
-    margin: auto;
-}
-.cards .checkout .closeShopping {
-   flex:  0 0 50%; 
-   width: 50%; 
-   color: var(--text-color-white);
-   padding: 10px 20px;
-   text-align: center;
-   font-weight: bold;
-   cursor: pointer;
-   background-color: var(--bg-color-dark);
-
-}
-/* ------------------ */
-.cards.active{
-
-   left: calc(100% - 400px);
-}
-.container.active{
-   margin-left: 70px;
-   max-width: 990px;
-   left: calc(100% - 400px);
-}
-
-
 </style>
