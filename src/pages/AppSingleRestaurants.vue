@@ -11,9 +11,18 @@ export default{
         }
     },
     mounted(){
-      store. getSingleRestaurant(this.$route.params.id);
+         store. getSingleRestaurant(this.$route.params.id);
 
     },
+    computed: {
+         totalCartItems() {
+             return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+         },
+         totalCartPrice() {
+             return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+         },
+    },
+    
     methods: {
       addToCart(dish) {
          const existingItemIndex = this.cartItems.findIndex(item => item.dishId === dish.id);
@@ -62,12 +71,14 @@ export default{
          <header class="d-flex justify-content-between align-items-center py-3  border border-warning">
             <h1>Your dishes</h1>
             <div class="shopping">
+               
              <!-- ------- -->
-             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fa fa-cart-shopping"></i></button>
+             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="fa fa-cart-shopping"></i></button>
              <span class="badge bg-secondary">{{ cartItems.length }}</span>
-             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+
+             <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                <div class="offcanvas-header">
-                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+                 <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                </div>
                <div class="offcanvas-body">
@@ -85,21 +96,29 @@ export default{
                      <button class="btn ntn-outline-secondary" @click="increaseQuantity(index)">+</button>
                      </div>
                      
-
+         
+                  </div>  
+                  <div class="row">
+                     <div class="total-price">
+                        <span>Total Price: {{ totalCartPrice }}</span>
+                     </div>
+                     <div class="ordine">
+                        <button class="btn btn-primary">invia</button>
+                     </div>
                   </div>
-                  
-                  <!-- <div v-for="(item, index) in cartItems" :key="index">
-                      - {{ item.price }}
-                 </div> -->
-                 
                </div>
+
              </div>
+               
+
             </div>
          </header>
       </div>
       
+
+
       <div class="row">
-         <div class="dishes d-flex justify-content-between">
+         <div class="dishes d-flex justify-content-between gap-4">
             <div class="card" style="width: 18rem;" v-for="(dish, index) in store.singleRestaurant.dishes" :key="index">
                <img  v-if="`${store.urlImg}${dish.photo}` == 'null' " src="https://picsum.photos/300/100?random" :aria-autocomplete="dish.name">
                <img v-else :src="`${store.urlImg}${dish.photo}`" :alt="dish.name">
