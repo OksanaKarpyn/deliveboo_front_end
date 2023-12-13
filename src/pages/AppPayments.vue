@@ -9,100 +9,40 @@
       }
     },
     methods: {
+      initializeBraintree() {
+        braintree.dropin.create(
+          {
+            authorization: this.token,
+            container: '#dropin-container',
+          },
+          (error, dropinInstance) => {
+            if (error) console.error(error);
 
-
-        initializeBraintree() {
-      braintree.dropin.create(
-        {
-          authorization: this.token,
-          container: '#dropin-container',
-        },
-        (error, dropinInstance) => {
-          if (error) console.error(error);
-
-          this.$data.dropinInstance = dropinInstance;
-        }
-      );
-    },
-    submitPayment() {
-      this.dropinInstance.requestPaymentMethod((error, payload) => {
-        if (error) {
-          console.error(error);
-          // Handle the error as needed
-          return;
-        }
-
-        // Now you can perform additional actions with the payload if needed
-        console.log(payload);
-
-        // Send the payment details to your server
-        this.sendPaymentDetails(payload);
-      });
-    },
-    sendPaymentDetails(payload) {
-      // Make an HTTP request to your server to handle the payment
-      // You can use libraries like Axios or the native Fetch API
-      // Example using Axios:
-      // axios.post('/your-server-endpoint', { nonce: payload.nonce })
-      //   .then(response => {
-      //     // Handle the server response
-      //   })
-      //   .catch(error => {
-      //     console.error(error);
-      //   });
-
-      // For demonstration purposes, log a message here
-      console.log('Sending payment details to the server:', payload);
-
-      // Add any other logic you need after sending payment details
-    },
-  
-
-    //     payment() {
-    //         console.log("ciao");
-    //         const token = '8xctsvwwvdbyksqp';
-
-    //         braintree.dropin.create({
-    //             authorization: token,
-    //             container: '#dropin-container'
-    //         }, (error, dropinInstance) => {
-    //             if (error) console.error(error);
-
-    //             // Assuming you have a form with the ID 'payment-form'
-    //             const form = document.getElementById('payment-form');
-
-    //             form.addEventListener('submit', event => {
-    //             event.preventDefault();
-
-    //             dropinInstance.requestPaymentMethod((error, payload) => {
-    //                 if (error) console.error(error);
-
-    //                 document.getElementById('nonce').value = payload.nonce;
-    //                 form.submit();
-    //             });
-    //             });
-    //         });
-    //     },
-
-    //     paymentJs() {
-    //       var button = document.querySelector('#submit-button');
-    
-    //       braintree.dropin.create({
-    //           authorization: 'sandbox_g42y39zw_348pk9cgf3bgyw2b',
-    //         selector: '#dropin-container'
-    //       }, (err, instance) => {
-    //         instance.requestPaymentMethod((err, payload) => {
-    //           // Submit payload.nonce to your server
-    //           console.log(payload);
-    //         });
-    //       });
-        
-    //   },
+            this.$data.dropinInstance = dropinInstance;
+          }
+        );
       },
+      submitPayment() {
+        this.dropinInstance.requestPaymentMethod((error, payload) => {
+          if (error) {
+            console.error(error);
+            // Handle the error as needed
+            return;
+          }
+
+          // Now you can perform additional actions with the payload if needed
+          console.log(payload);
+
+          // Send the payment details to your server
+          this.sendPaymentDetails(payload);
+        });
+      },
+      sendPaymentDetails(payload) {
+        console.log('Sending payment details to the server:', payload);
+      },
+    },
     mounted() {
         this.initializeBraintree();
-      //this.payment();
-      //this.paymentJs();
     }
   }
   </script>
