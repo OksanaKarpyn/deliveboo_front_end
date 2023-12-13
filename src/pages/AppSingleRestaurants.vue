@@ -114,7 +114,7 @@ export default{
                         <span>Total Price: {{ totalCartPrice }}</span>
                      </div>
                      <div class="ordine">
-                        <button class="btn btn-primary">invia</button>
+                        <router-link :to="{name: 'Payment' }" class="btn btn-primary">invia</router-link>
                      </div>
                   </div>
                </div>
