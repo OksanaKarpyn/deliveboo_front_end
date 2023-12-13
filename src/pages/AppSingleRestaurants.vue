@@ -11,6 +11,11 @@ export default{
         }
     },
     mounted(){
+          // Carica il carrello da localStorage al caricamento della pagina
+         const storedCartItems = localStorage.getItem('cartItems');
+         if (storedCartItems) {
+             this.cartItems = JSON.parse(storedCartItems);
+         }
          store. getSingleRestaurant(this.$route.params.id);
 
     },
@@ -47,10 +52,13 @@ export default{
          //  .then(response => {
          //      console.log(response.data);
          //  })
+
+         this.saveCartToLocalStorage();
       },
       increaseQuantity(index) {
            // Aumenta la quantità dell'articolo nel carrello
            this.cartItems[index].quantity++;
+           this.saveCartToLocalStorage();
       },
       decreaseQuantity(index) {
           // Diminuisci la quantità dell'articolo nel carrello
@@ -60,7 +68,12 @@ export default{
               // Se la quantità è 1 o meno, rimuovi l'articolo dal carrello
               this.cartItems.splice(index, 1);
           }
+          this.saveCartToLocalStorage();
       },
+      saveCartToLocalStorage() {
+        // Salva il carrello in localStorage
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    }
   },
 }
 </script>
@@ -95,11 +108,9 @@ export default{
                            {{ item.quantity }}
                      <button class="btn ntn-outline-secondary" @click="increaseQuantity(index)">+</button>
                      </div>
-                     
-         
                   </div>  
                   <div class="row">
-                     <div class="total-price">
+                     <div class="total-price d-flex">
                         <span>Total Price: {{ totalCartPrice }}</span>
                      </div>
                      <div class="ordine">
