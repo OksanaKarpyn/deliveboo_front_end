@@ -13,8 +13,9 @@ export const store = reactive({
         selectedTypologies: [],
         loading: false,
         dishes:[],
-       
+        cartItems: [],
 
+       
         getTypology() {
             this.loading = true;
             axios.get(this.baseUrl + this.urlTypology)

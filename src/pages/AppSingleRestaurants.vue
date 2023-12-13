@@ -7,34 +7,33 @@ export default{
     data() {
         return {
             store,
-            cartItems: [],
         }
     },
     mounted(){
           // Carica il carrello da localStorage al caricamento della pagina
          const storedCartItems = localStorage.getItem('cartItems');
          if (storedCartItems) {
-             this.cartItems = JSON.parse(storedCartItems);
+             store.cartItems = JSON.parse(storedCartItems);
          }
          store. getSingleRestaurant(this.$route.params.id);
-
+      
     },
     computed: {
          totalCartItems() {
-             return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+             return store.cartItems.reduce((total, item) => total + item.quantity, 0);
          },
          totalCartPrice() {
-             return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-         },
+          return store.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        },
     },
     
     methods: {
       addToCart(dish) {
-         const existingItemIndex = this.cartItems.findIndex(item => item.dishId === dish.id);
+         const existingItemIndex = store.cartItems.findIndex(item => item.dishId === dish.id);
 
          if (existingItemIndex !== -1) {
               // Se l'articolo esiste già nel carrello, aumenta la quantità
-              this.cartItems[existingItemIndex].quantity++;
+              store.cartItems[existingItemIndex].quantity++;
           } else {
               // Altrimenti, aggiungi l'articolo al carrello
               const newItem = {
@@ -45,7 +44,7 @@ export default{
                   quantity: 1,
                   // altre proprietà necessarie
               };
-              this.cartItems.push(newItem);
+              store.cartItems.push(newItem);
           }
        
          //  axios.post('', {dishId: dish.id})
@@ -57,22 +56,22 @@ export default{
       },
       increaseQuantity(index) {
            // Aumenta la quantità dell'articolo nel carrello
-           this.cartItems[index].quantity++;
+           store.cartItems[index].quantity++;
            this.saveCartToLocalStorage();
       },
       decreaseQuantity(index) {
           // Diminuisci la quantità dell'articolo nel carrello
-          if (this.cartItems[index].quantity > 1) {
-              this.cartItems[index].quantity--;
+          if (store.cartItems[index].quantity > 1) {
+              store.cartItems[index].quantity--;
           } else {
               // Se la quantità è 1 o meno, rimuovi l'articolo dal carrello
-              this.cartItems.splice(index, 1);
+              store.cartItems.splice(index, 1);
           }
           this.saveCartToLocalStorage();
       },
       saveCartToLocalStorage() {
         // Salva il carrello in localStorage
-        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+        localStorage.setItem('cartItems', JSON.stringify(store.cartItems));
     }
   },
 }
@@ -87,7 +86,7 @@ export default{
                
              <!-- ------- -->
              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="fa fa-cart-shopping"></i></button>
-             <span class="badge bg-secondary">{{ cartItems.length }}</span>
+             <span class="badge bg-secondary">{{ store.cartItems.length }}</span>
 
              <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                <div class="offcanvas-header">
@@ -96,7 +95,7 @@ export default{
                </div>
                <div class="offcanvas-body">
                   <div class="row w-100 border border-warning">
-                     <div class="d-flex border border-danger"  v-for="(item, index) in cartItems" :key="index">
+                     <div class="d-flex border border-danger"  v-for="(item, index) in store.cartItems" :key="index">
                         <div class="card-img">
                            <img :src="item.image" class="card-img-top d-block h-100"  :alt="item.name">
                         </div>

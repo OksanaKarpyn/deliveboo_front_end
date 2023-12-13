@@ -2,6 +2,7 @@
   import { store } from "../data/store";
   export default {
     name: 'AppPayments',
+
     data() {
       return {
         store,
@@ -47,20 +48,41 @@
   }
   </script>
 <template>
-    <div>
-        <div id="dropin-container"></div>
-        <form @submit.prevent="submitPayment">
-          <!-- Other form fields can go here -->
-          <button type="submit">Submit Payment</button>
-        </form>
-      </div>
-
-
-
-    <!-- <div>
-      <div id="dropin-container"></div>
-      <button @click="paymentJs(), payment()" class="button button--small button--green">Purchase</button>
-    </div> -->
+    <div class="container">
+        <div class="row">
+            <form class="row g-3">
+                <div class="col-md-6">
+                  <label for="name" class="form-label">Nome</label>
+                  <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="col-md-6">
+                  <label for="lastname" class="form-label">Cognome</label>
+                  <input type="text" class="form-control" id="lastname" name="lastname">
+                </div>
+                <div class="col-6">
+                  <label for="inputAddress" class="form-label">Indirizzo</label>
+                  <input type="text" class="form-control" id="inputAddress" placeholder="" name="address">
+                </div>
+                <div class="col-6">
+                    <label for="phone" class="form-label">Cellulare</label>
+                    <input type="text" class="form-control" id="phone" name="phone">
+                  </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+              </form>
+        </div>
+        <div class="row">
+            <div>
+                <div id="dropin-container"></div>
+                <form @submit.prevent="submitPayment">
+                  <!-- Other form fields can go here -->
+                  <button type="submit">Submit Payment</button>
+                </form>
+              </div>
+        </div>
+    </div>
+    
   </template>
   
   
