@@ -3,19 +3,26 @@ import axios from 'axios';
 
 export const store = reactive({
         baseUrl:"http://127.0.0.1:8000/api/",
-        urlTypology: "apiTypology",
-        urlRestaurants: "apiRestaurant",
-        urlDishes:"apiDish",
         urlImg:'http://127.0.0.1:8000/storage/',
-        typology: [],
+        urlRestaurants: "apiRestaurant",
+        urlTypology: "apiTypology",
+        urlDishes:"apiDish",
+        orders:"orders",
         restaurants: [],
         singleRestaurant: [],
+        typology: [],
         selectedTypologies: [],
         loading: false,
-        dishes:[],
-        cartItems: [],
+        cart: [],
+        total: 0,
 
-       
+        newOrder: {
+            name: "",
+            lastname: "",
+            address: "",
+            phone: "",
+        },
+
         getTypology() {
             this.loading = true;
             axios.get(this.baseUrl + this.urlTypology)
@@ -56,6 +63,68 @@ export const store = reactive({
                 console.log(this.singleRestaurant);
             })
         },
+
+        addProduct(item) {
+          // CREAZIONE CARRELLO VUOTO SE NON ESISTE
+          if (!localStorage.getItem('cart')) {
+              localStorage.setItem('cart', JSON.stringify([]));
+          }
+          const cart = JSON.parse(localStorage.getItem('cart'));
+  
+          // VERIFICA SE L'ITEM è GIA' PRESENTE NEL CARRELLO E NE AGGIUNGE LA QUANTITA'
+          const existItem = cart.find((e) => e.id === item.id);
+          if (existItem) {
+              existItem.quantity++
+          } else {
+              const newItem = {
+                  ...item,
+                  "quantity": 1
+              }
+              cart.push(newItem);
+          }
+          this.cart = cart
+          localStorage.setItem('cart', JSON.stringify(cart));
+  
+          this.sumPrice();
+        },
+        subProduct(item) {
+          const cart = JSON.parse(localStorage.getItem('cart'));
+          if (!cart) {
+              return
+          }
+          const existItem = cart.find((e) => e.id === item.id);
+          if (existItem) {
+              if (existItem.quantity <= 1) {
+                  const index = cart.indexOf(existItem);
+                  cart.splice(index, 1);
+              } else {
+                  existItem.quantity--
+              }
+          }
+          if (cart.length == 0) {
+              this.cleanCart()
+          } else {
+              localStorage.setItem('cart', JSON.stringify(cart));
+              this.cart = cart
+          }
+
+          this.sumPrice();
+        },
+        cleanCart() {
+          localStorage.removeItem("cart")
+          this.cart = [];
+          this.total = 0;
+        },
+
+        sumPrice(){
+          let sum = 0
+          this.cart.forEach(element => {
+              sum += (element.price * element.quantity)
+          });
+          this.total = sum.toFixed(2);
+        },
+
+
 
 
 

@@ -18,11 +18,10 @@ export default {
   <nav class="navbar navbar-expand-md " style="height: 60px;">
     <div class="container ">
         <div class="d-flex align-items-center">
-            <a class="navbar-brand d-flex align-items-center" href="http://localhost:5173/">
-                <img  src="../../public/1.png" alt="" style="max-height: 70px;">
-                <div><i class="fa-solid fa-burger"></i> Deliveboo</div>
-            </a>
-            
+            <router-link class="navbar-brand d-flex align-items-center" to="/">
+              <img  src="../../1.png" alt="" style="max-height: 70px;">
+              <div><i class="fa-solid fa-burger"></i> Deliveboo</div>
+            </router-link>
         </div>
         
 

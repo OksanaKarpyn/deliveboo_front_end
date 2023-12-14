@@ -1,15 +1,41 @@
   <script>
   import { store } from "../data/store";
+  import axios from 'axios';
+
   export default {
     name: 'AppPayments',
 
     data() {
       return {
         store,
+        name: "",
+        lastname: "",
+        address: "",
+        phone: "",
         token: 'sandbox_g42y39zw_348pk9cgf3bgyw2b', 
       }
     },
     methods: {
+      
+      createOrder() {
+        let data = {
+                dishes: store.cart,
+                data: {
+                  name: this.name,
+                  lastname: this.lastname,
+                  address: this.address,
+                  phone: this.phone,
+                }
+            }
+        axios.post(store.baseUrl + store.orders, data)
+            .then((r) => {
+              console.log(data)
+            }).catch(err => {
+              console.log(err);
+            })
+          
+        },
+
       initializeBraintree() {
         braintree.dropin.create(
           {
@@ -50,27 +76,27 @@
 <template>
     <div class="container">
         <div class="row">
-            <form class="row g-3">
-                <div class="col-md-6">
-                  <label for="name" class="form-label">Nome</label>
-                  <input type="text" class="form-control" id="name" name="name">
+            <form class="row g-3" @submit.prevent="createOrder()" >
+              <div class="col-md-6">
+                <label for="name" class="form-label">Nome</label>
+                <input v-model="name" type="text" class="form-control" id="name" name="name">
+              </div>
+              <div class="col-md-6">
+                <label for="lastname" class="form-label">Cognome</label>
+                <input v-model="lastname" type="text" class="form-control" id="lastname" name="lastname">
+              </div>
+              <div class="col-6">
+                <label for="inputAddress" class="form-label">Indirizzo</label>
+                <input v-model="address" type="text" class="form-control" id="inputAddress" placeholder="" name="address">
+              </div>
+              <div class="col-6">
+                  <label for="phone" class="form-label">Cellulare</label>
+                  <input v-model="phone" type="text" class="form-control" id="phone" name="phone">
                 </div>
-                <div class="col-md-6">
-                  <label for="lastname" class="form-label">Cognome</label>
-                  <input type="text" class="form-control" id="lastname" name="lastname">
-                </div>
-                <div class="col-6">
-                  <label for="inputAddress" class="form-label">Indirizzo</label>
-                  <input type="text" class="form-control" id="inputAddress" placeholder="" name="address">
-                </div>
-                <div class="col-6">
-                    <label for="phone" class="form-label">Cellulare</label>
-                    <input type="text" class="form-control" id="phone" name="phone">
-                  </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Sign in</button>
-                </div>
-              </form>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </div>
+            </form>
         </div>
         <div class="row">
             <div>
