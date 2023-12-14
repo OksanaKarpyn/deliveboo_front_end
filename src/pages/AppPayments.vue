@@ -70,6 +70,7 @@
     },
     mounted() {
         this.initializeBraintree();
+        store.gerTotalPrice();
     }
   }
   </script>
@@ -96,16 +97,20 @@
               <div class="col-12">
                 <button type="submit" class="btn btn-primary">Sign in</button>
               </div>
-            </form>
-        </div>
-        <div class="row">
-            <div>
+              <div>
                 <div id="dropin-container"></div>
                 <form @submit.prevent="submitPayment">
                   <!-- Other form fields can go here -->
                   <button type="submit">Submit Payment</button>
                 </form>
               </div>
+            </form>
+            <div>
+              <h3 class="py-4">Total = {{ store.getTotal }}</h3>
+            </div>
+        </div>
+        <div class="row">
+            
         </div>
     </div>
     

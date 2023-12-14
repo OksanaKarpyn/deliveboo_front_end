@@ -15,6 +15,7 @@ export const store = reactive({
         loading: false,
         cart: [],
         total: 0,
+        getTotal: localStorage.getItem('cartTotal'),
 
         newOrder: {
             name: "",
@@ -114,6 +115,9 @@ export const store = reactive({
           localStorage.removeItem("cart")
           this.cart = [];
           this.total = 0;
+        },
+        getTotalPrice(){
+            return this.getTotal 
         },
 
         sumPrice(){
