@@ -37,7 +37,7 @@ export default{
          <div class="dishes d-flex justify-content-between gap-4">
             <div class="card" style="width: 18rem;" v-for="(dish, index) in store.singleRestaurant.dishes" :key="index">
                <img v-if="`${store.urlImg}${dish.photo}` === '' " src="https://picsum.photos/300/100?random" :aria-autocomplete="dish.name">
-               <!-- <img :src="`${store.urlImg}${dish.photo}`" :alt="dish.name"> -->
+               <img :src="`${store.urlImg}${dish.photo}`" :alt="dish.name">
                <div class="card-body">
                   <h5 class="card-title">{{dish.name}}</h5>
                   <p class="card-text">{{dish.price}}</p>

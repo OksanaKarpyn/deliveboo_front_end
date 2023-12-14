@@ -16,6 +16,9 @@ export default{
         } else {
             store.cart = [];
         }
+    },
+    mounted() {
+        store.sumPrice()
     }
 }
 </script>

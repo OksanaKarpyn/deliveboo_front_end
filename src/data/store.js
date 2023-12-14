@@ -122,6 +122,8 @@ export const store = reactive({
               sum += (element.price * element.quantity)
           });
           this.total = sum.toFixed(2);
+          
+          localStorage.setItem('cartTotal', this.total);
         },
 
 
