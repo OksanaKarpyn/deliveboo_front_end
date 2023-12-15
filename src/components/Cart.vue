@@ -26,7 +26,7 @@ export default{
 <template>
 
 <!-- CARRELLO -->
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="fa fa-cart-shopping"></i></button>
+<button class="btn btn-primary mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="fa fa-cart-shopping"></i></button>
 <span class="badge bg-secondary">{{ store.cart.length }}</span>
 <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
     <div class="offcanvas-header">

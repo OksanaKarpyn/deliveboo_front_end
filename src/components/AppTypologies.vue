@@ -17,7 +17,7 @@ export default{
 </script>
 
 <template>
-    <div class="card">
+    <div class="card bg-body-secondary">
         <label :for="typology.id" :class="{ 'active-label': store.selectedTypologies.includes(typology.name), 'd-flex justify-content-center p-3': true }">
           <input type="checkbox" :id="typology.id" :value="typology.name" v-model="store.selectedTypologies">
           {{ typology.name }}
