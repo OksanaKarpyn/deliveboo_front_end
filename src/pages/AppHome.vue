@@ -16,8 +16,8 @@ export default {
 
         <!-- PARTE DI TESTO -->
         <div class="col-4 text-center text-white"> 
-          <h1>TITOLO PROVA</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae tenetur quisquam obcaecati ullam tempora labore excepturi earum nemo provident quos ex temporibus laborum, aperiam sequi iste adipisci, quibusdam fugiat accusamus!</p>
+          <h1>Deliveboo</h1>
+          <p>Siamo entusiasti di darvi il benvenuto nel cuore della nostra esperienza di consegna straordinaria. Presso Deliveboo, non consegniamo solo pacchi; portiamo a casa vostra la comodità, l'efficienza e la soddisfazione.</p>
           <router-link  :to="{name: 'Restaurant_list' }" class="btn rounded-pill border-white text-white" type="submit">Visualizza i nostri ristoranti</router-link>
         </div>
         
